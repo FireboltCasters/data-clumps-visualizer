@@ -1,7 +1,7 @@
-const argoUML = require("./dataClumpsDictArgoUML.json");
+import {ExampleDataArgoUML} from "./ExampleDataArgoUML";
 
 export class ExampleData{
     static getArgoUML(){
-        return argoUML;
+        return ExampleDataArgoUML.getDataClumpsDict();
     }
 }

@@ -56,6 +56,7 @@
     "typescript": "^4.3.5"
   },
   "peerDependencies": {
+    "primereact": "*",
     "react": "*",
     "primereact": "*"
   },
@@ -71,6 +72,7 @@
     "buffer-from": "^1.1.2",
     "data-clumps": "^0.1.79",
     "eslint": "^7.32.0",
+    "primereact": "*",
     "react": "^18.2.0",
     "react-graph-vis": "^1.0.7"
   }

@@ -1,7 +1,7 @@
 import React, {FunctionComponent, useEffect} from 'react';
 import {
     ColorModeOptions,
-    useDemoType,
+    useDemoType, useSynchedActiveFileKey,
     useSynchedColorModeOption, useSynchedDataClumpsDict,
     useSynchedFileExplorerTree,
     useSynchedModalState,
@@ -13,6 +13,8 @@ import {WebIdeCodeActionBar} from "./WebIdeActionBar";
 import {SynchedStates} from "../storage/SynchedStates";
 import {TestCaseBaseClassGroup} from "data-clumps/ignoreCoverage/TestCaseBaseClass";
 import {ExampleData} from "../../api/src/ignoreCoverage/exampleData/ExampleData";
+import {Screenshot} from "../../api/src/ignoreCoverage/Screenshot";
+import {DataClumpsGraph} from "../../api/src";
 
 // @ts-ignore
 export interface WebIdeCodeActionBarDataClumpsProps {
@@ -23,6 +25,7 @@ export const WebIdeCodeActionBarDataClumps : FunctionComponent<WebIdeCodeActionB
 
     const demoType = useDemoType();
     const [dataClumpsDict, setDataClumpsDict] = useSynchedDataClumpsDict();
+    const [from_file_path, setActiveFileKey] = useSynchedActiveFileKey();
 
     const [viewOptions, setViewOptions] = useSynchedViewOptions()
     const [colorModeOption, setColorModeOption] = useSynchedColorModeOption();
@@ -199,6 +202,20 @@ export const WebIdeCodeActionBarDataClumps : FunctionComponent<WebIdeCodeActionB
                     items: renderTestCasesMenuItems()
                 },
             ]
+        },
+        {
+            label:'Screenshot',
+            icon:'pi pi-fw pi-image',
+            command: () => {
+                Screenshot.screenshot(
+                    <DataClumpsGraph
+                        key={JSON.stringify(dataClumpsDict)+from_file_path}
+                        from_file_path={from_file_path}
+                        dataClumpsDict={dataClumpsDict}
+                        dark_mode={false}
+                    />
+                )
+            }
         },
         {
             label:'Extra',

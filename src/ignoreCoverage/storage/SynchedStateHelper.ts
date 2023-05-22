@@ -122,7 +122,7 @@ export function useSynchedActiveFileKey(): [value: any, setValue: (value) => {}]
 }
 
 
-export function useSynchedFileExplorerTree(): [any, ((value) => void)] {
+export function useSynchedFileExplorerTree(initialTree): [any, ((value) => void)] {
     const [softwareProjectTree, setSoftwareProjectTree] = useSynchedJSONState(SynchedStates.softwareProjectTree)
     const setTreeWrapper = (tree: any) => {
         //console.log("setTreeWrapper")
@@ -130,7 +130,7 @@ export function useSynchedFileExplorerTree(): [any, ((value) => void)] {
         setSoftwareProjectTree(tree);
     }
     return [
-        softwareProjectTree,
+        softwareProjectTree || initialTree,
         setTreeWrapper
     ];
 }

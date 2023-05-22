@@ -21,6 +21,7 @@ import {WebIdeFileExplorerDropZoneModal} from "../webIDE/WebIdeFileExplorerDropZ
 import {DataClumpsGraph} from "../../api/src";
 import {WebIdeFileExplorerDropZone} from "../webIDE/WebIdeFileExplorerDropZone";
 import {WebIdeCodeActionBarViews} from "../webIDE/WebIdeActionBarViews";
+import {WebIdeFileExplorer} from "../webIDE/WebIdeFileExplorer";
 
 let abortController = new MyAbortController(); // Dont initialize in the component, otherwise the abortController will be new Instance
 
@@ -125,9 +126,26 @@ export const Demo : FunctionComponent<DemoProps> = (props) => {
 
         let selectedViewOption = viewOptions[panel];
 
-        let explorerFileActive = selectedViewOption === ViewOptionValues.explorerFile;
+
+        if(selectedViewOption === ViewOptionValues.explorerFile){
+            content = (
+                <WebIdeFileExplorer
+                    key={JSON.stringify(dataClumpsDict)+from_file_path}
+                    dataClumpsDict={dataClumpsDict}
+                />
+            )
+        }
+
+
         if(selectedViewOption === ViewOptionValues.dataClumpsGraph){
-            content = renderDataClumpsGraph();
+            content = (
+                <DataClumpsGraph
+                    key={JSON.stringify(dataClumpsDict)+from_file_path}
+                    from_file_path={from_file_path}
+                    dataClumpsDict={dataClumpsDict}
+                    dark_mode={dark_mode}
+                />
+            )
         }
 
         return(
@@ -146,16 +164,19 @@ export const Demo : FunctionComponent<DemoProps> = (props) => {
 
     return (
         <div className={"p-splitter"} style={{width: "100%", height: "100vh", display: "flex", flexDirection: "row"}}>
+            <WebIdeFileExplorerDropZone loadSoftwareProject={loadSoftwareProject}>
             <WebIdeLayout
                 menuBarItems={actionBar}
-                panelInitialSizes={[20, 50, 30]}
+                panelInitialSizes={[10, 90]}
             >
                 <div style={{backgroundColor: 'transparent', height: '100%', width: '100%', display: 'flex', flexDirection: 'column'}}>
-                    <WebIdeFileExplorerDropZone loadSoftwareProject={loadSoftwareProject}>
-                        {renderPanel(ViewPanelValues.rightPanel)}
-                    </WebIdeFileExplorerDropZone>
+                    {renderPanel(ViewPanelValues.leftPanel)}
+                </div>
+                <div style={{backgroundColor: 'transparent', height: '100%', width: '100%', display: 'flex', flexDirection: 'column'}}>
+                    {renderPanel(ViewPanelValues.rightPanel)}
                 </div>
             </WebIdeLayout>
+            </WebIdeFileExplorerDropZone>
             <WebIdeModalProgress onAbort={onAbort} />
             <WebIdeFileExplorerDropZoneModal loadSoftwareProject={loadSoftwareProject} />
         </div>

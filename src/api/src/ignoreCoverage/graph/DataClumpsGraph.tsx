@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useState} from 'react';
+import React, {FunctionComponent} from 'react';
 import Graph from "react-graph-vis";
 import {
     DataClumpsParameterFromContext,

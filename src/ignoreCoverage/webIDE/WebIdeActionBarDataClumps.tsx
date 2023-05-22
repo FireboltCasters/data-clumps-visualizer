@@ -39,7 +39,8 @@ export const WebIdeCodeActionBarDataClumps : FunctionComponent<WebIdeCodeActionB
     }, [])
 
     function loadDemoProject(){
-        const demoDataClumpsDict = ExampleData.getArgoUML();
+        let demoDataClumpsDict = ExampleData.getArgoUML();
+        //let demoDataClumpsDict = ExampleData.getTestData();
         setDataClumpsDict(demoDataClumpsDict);
     }
 

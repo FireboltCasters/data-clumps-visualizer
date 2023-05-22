@@ -25,7 +25,7 @@ Data Clumps Viszualizer
 
 ## About
 
-A library to visualize data clumps which is used in [data-clumps](https://fireboltcasters.github.io/data-clumps/).
+A library to visualize data clumps which is used in [data-clumps](https://github.com/FireboltCasters/data-clumps).
 
 ## Live
 Here you can upload and explore your own projects which are parsed by npm [data-clumps](https://fireboltcasters.github.io/data-clumps/):

@@ -1,6 +1,7 @@
 import React, {FunctionComponent, useEffect, useState} from 'react';
 // default style
 import {
+    useIsDarkModeEnabled,
     useSynchedActiveFileKey,
     useSynchedDataClumpsDict,
     useSynchedDetectorOptions,
@@ -28,6 +29,7 @@ export interface DemoProps {
 }
 export const Demo : FunctionComponent<DemoProps> = (props) => {
 
+    const dark_mode = useIsDarkModeEnabled()
     const [from_file_path, setActiveFileKey] = useSynchedActiveFileKey();
     const [modalOptions, setModalOptions] = useSynchedModalState(SynchedStates.modalOptions);
     const [viewOptions, setViewOptions] = useSynchedViewOptions();
@@ -109,7 +111,12 @@ export const Demo : FunctionComponent<DemoProps> = (props) => {
     function renderDataClumpsGraph(){
 
         return(
-            <DataClumpsGraph key={JSON.stringify(dataClumpsDict)+from_file_path} from_file_path={from_file_path} dataClumpsDict={dataClumpsDict} />
+            <DataClumpsGraph
+                key={JSON.stringify(dataClumpsDict)+from_file_path}
+                from_file_path={from_file_path}
+                dataClumpsDict={dataClumpsDict}
+                dark_mode={dark_mode}
+            />
         )
     }
 

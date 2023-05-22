@@ -12,9 +12,12 @@ export interface DataClumpsGraphProps {
     dataClumpsDict: DataClumpsTypeContext | null,
     from_file_path?: string | null | undefined,
     to_file_path?: string | null | undefined,
+    dark_mode?: boolean
 }
 
 export const DataClumpsGraph : FunctionComponent<DataClumpsGraphProps> = (props: DataClumpsGraphProps) => {
+
+    const dark_mode = props?.dark_mode;
 
     //const [dataClumpsDict, setDataClumpsDict] = useSynchedDataClumpsDict(); // we wont use synched variable here, since we want to export our functionality outside
 //    const [showLargeGraph, setShowLargeGraph] = useState(false);
@@ -377,13 +380,15 @@ export const DataClumpsGraph : FunctionComponent<DataClumpsGraphProps> = (props:
 
     function renderGraph(){
 
+        const edgesColor = dark_mode ? "#ffffff" : "#000000";
+
         const options = {
             layout: {
-                hierarchical: false
+                hierarchical: false,
             },
             edges: {
-                color: "#000000"
-            }
+                color: edgesColor
+            },
         };
 
 

@@ -3,4 +3,6 @@ async function main() {
 
 }
 
+export {} // just for --isolatedModules
+
 main();

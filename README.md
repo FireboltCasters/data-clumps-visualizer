@@ -25,7 +25,7 @@ Data Clumps Viszualizer
 
 ## About
 
-A library to visualize data clumps.
+A library to visualize data clumps which is used in [data-clumps](https://fireboltcasters.github.io/data-clumps/).
 
 ## Live
 Here you can upload and explore your own projects which are parsed by npm [data-clumps](https://fireboltcasters.github.io/data-clumps/):
@@ -83,6 +83,7 @@ export default class App extends React.Component<any, any> {
 - [x] Integrate website-to-gif: https://github.com/PabloLec/website-to-gif
 - [ ] Implement different visualizations
   - [x] simple graph visualization
+- [ ] Implement visualization to jpg
 - [ ] Add sidebar menu to select specific file/class/method
 - [ ] Server side image generation
 

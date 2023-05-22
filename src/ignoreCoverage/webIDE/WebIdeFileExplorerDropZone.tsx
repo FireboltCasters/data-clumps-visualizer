@@ -4,12 +4,13 @@ import '@sinm/react-file-tree/styles.css';
 import '@sinm/react-file-tree/icons.css';
 import {SoftwareProject} from "data-clumps";
 import {MyFile} from "data-clumps/ignoreCoverage/ParsedAstTypes";
+import {DataClumpsTypeContext} from "data-clumps/ignoreCoverage/DataClumpTypes";
 
 // @ts-ignore
 export interface WebIdeFileExplorerDropZoneProps {
     children?: ReactNode;
     onDropComplete?: () => void;
-    loadDataClumpsDict: (project: SoftwareProject) => Promise<void>;
+    loadDataClumpsDict: (project: DataClumpsTypeContext) => Promise<void>;
 }
 
 export const WebIdeFileExplorerDropZone : FunctionComponent<WebIdeFileExplorerDropZoneProps> = (props: WebIdeFileExplorerDropZoneProps) => {
@@ -88,8 +89,9 @@ export const WebIdeFileExplorerDropZone : FunctionComponent<WebIdeFileExplorerDr
         //console.log(event)
         const data = event.dataTransfer;
         const items = data.items;
-        let newProject = await handleLoadFiles(items);
-        await props.loadDataClumpsDict(newProject);
+        //TODO: handle parse drop single file
+//        let newProject = await handleLoadFiles(items);
+//        await props.loadDataClumpsDict(newProject);
 
         if(props.onDropComplete){
             await props.onDropComplete();

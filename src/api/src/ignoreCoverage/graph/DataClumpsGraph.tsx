@@ -9,6 +9,7 @@ import {Button} from "primereact/button";
 
 // @ts-ignore
 export interface DataClumpsGraphProps {
+    key: string,
     dataClumpsDict: DataClumpsTypeContext | null,
     from_file_path?: string | null | undefined,
     to_file_path?: string | null | undefined,
@@ -399,7 +400,7 @@ export const DataClumpsGraph : FunctionComponent<DataClumpsGraphProps> = (props:
             }
         };
         return (
-            <Graph key={JSON.stringify(graph)+JSON.stringify(options)} graph={graph} options={options} events={events} style={{ height: "100%", width: "100%" }} />
+            <Graph key={props?.key} graph={graph} options={options} events={events} style={{ height: "100%", width: "100%" }} />
         );
     }
 

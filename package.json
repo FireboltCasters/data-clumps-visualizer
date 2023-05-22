@@ -6,7 +6,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "data-clumps": "^0.1.79",
     "@fullcalendar/core": "^5.11.0",
     "@monaco-editor/react": "^4.4.6",
     "@sinm/react-file-tree": "^1.1.1",
@@ -23,6 +22,7 @@
     "buffer-from": "^1.1.2",
     "chart.js": "^3.7.1",
     "dagre": "^0.8.5",
+    "data-clumps": "^0.1.79",
     "dotenv": "^16.0.3",
     "easy-peasy": "^6.0.0",
     "jszip": "^3.10.1",

@@ -207,14 +207,7 @@ export const WebIdeCodeActionBarDataClumps : FunctionComponent<WebIdeCodeActionB
             label:'Screenshot',
             icon:'pi pi-fw pi-image',
             command: () => {
-                Screenshot.screenshot(
-                    <DataClumpsGraph
-                        key={JSON.stringify(dataClumpsDict)+from_file_path}
-                        from_file_path={from_file_path}
-                        dataClumpsDict={dataClumpsDict}
-                        dark_mode={false}
-                    />
-                )
+                Screenshot.screenshot(dataClumpsDict)
             }
         },
         {

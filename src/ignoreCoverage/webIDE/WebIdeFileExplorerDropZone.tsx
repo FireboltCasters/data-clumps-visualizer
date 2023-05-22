@@ -9,7 +9,7 @@ import {MyFile} from "data-clumps/ignoreCoverage/ParsedAstTypes";
 export interface WebIdeFileExplorerDropZoneProps {
     children?: ReactNode;
     onDropComplete?: () => void;
-    loadSoftwareProject: (project: SoftwareProject) => Promise<void>;
+    loadDataClumpsDict: (project: SoftwareProject) => Promise<void>;
 }
 
 export const WebIdeFileExplorerDropZone : FunctionComponent<WebIdeFileExplorerDropZoneProps> = (props: WebIdeFileExplorerDropZoneProps) => {
@@ -89,7 +89,7 @@ export const WebIdeFileExplorerDropZone : FunctionComponent<WebIdeFileExplorerDr
         const data = event.dataTransfer;
         const items = data.items;
         let newProject = await handleLoadFiles(items);
-        await props.loadSoftwareProject(newProject);
+        await props.loadDataClumpsDict(newProject);
 
         if(props.onDropComplete){
             await props.onDropComplete();

@@ -14,17 +14,16 @@ import {WebIdeCodeActionBar} from "./WebIdeActionBar";
 import {SynchedStates} from "../storage/SynchedStates";
 import {TestCaseBaseClassGroup} from "data-clumps/ignoreCoverage/TestCaseBaseClass";
 import {ExampleData} from "../../api/src/ignoreCoverage/exampleData/ExampleData";
+import {DataClumpsTypeContext} from "data-clumps/ignoreCoverage/DataClumpTypes";
 
 // @ts-ignore
 export interface WebIdeCodeActionBarDataClumpsProps {
-    loadSoftwareProject: (project: SoftwareProject) => Promise<void>;
+    loadDataClumpsDict: (project: DataClumpsTypeContext | any) => Promise<void>;
 }
 
 export const WebIdeCodeActionBarDataClumps : FunctionComponent<WebIdeCodeActionBarDataClumpsProps> = (props: WebIdeCodeActionBarDataClumpsProps) => {
 
     const demoType = useDemoType();
-    const [dataClumpsDict, setDataClumpsDict] = useSynchedDataClumpsDict();
-    const [from_file_path, setActiveFileKey] = useSynchedActiveFileKey();
 
     const [viewOptions, setViewOptions] = useSynchedViewOptions()
     const [colorModeOption, setColorModeOption] = useSynchedColorModeOption();
@@ -38,10 +37,32 @@ export const WebIdeCodeActionBarDataClumps : FunctionComponent<WebIdeCodeActionB
 
     }, [])
 
-    function loadDemoProject(){
-        let demoDataClumpsDict = ExampleData.getArgoUML();
-        //let demoDataClumpsDict = ExampleData.getTestData();
-        setDataClumpsDict(demoDataClumpsDict);
+    async function loadDemoProject(){
+        //let demoDataClumpsDict = ExampleData.getArgoUML();
+        let demoDataClumpsDict = ExampleData.getTestData();
+        props.loadDataClumpsDict(demoDataClumpsDict)
+
+        let languages = Languages.getLanguages();
+        if(languages && languages.length>0){
+            let language = languages[0];
+            let positiveTestCases = language.getPositiveTestCasesGroupsDataClumps();
+            if(!!positiveTestCases && positiveTestCases.length>0){
+                let positiveTestCaseGroup = positiveTestCases[0];
+                if(!!positiveTestCaseGroup){
+                    let positiveTestCasesForGroup = positiveTestCaseGroup.testCases;
+                    if(!!positiveTestCasesForGroup && positiveTestCasesForGroup.length>0){
+                        let positiveTestCase = positiveTestCasesForGroup[0];
+                        if(!!positiveTestCase){
+                            let testCaseProject = positiveTestCase.getSoftwareProject()
+                            await testCaseProject.parseSoftwareProject();
+                            let demoDataClumpsDict = await testCaseProject.detectDataClumps();
+                            //setDataClumpsDict(demoDataClumpsDict);
+                            //props.loadDataClumpsDict(demoDataClumpsDict)
+                        }
+                    }
+                }
+            }
+        }
     }
 
     function getViewOptionItemEditorHighlightFieldAndParameters(){
@@ -103,7 +124,7 @@ export const WebIdeCodeActionBarDataClumps : FunctionComponent<WebIdeCodeActionB
                         //console.log("load test case", testCaseName)
                         //console.log("testCaseProject")
                         //console.log(testCaseProject)
-                        await props.loadSoftwareProject(testCaseProject)
+                        //await props.loadDataClumpsDict(testCaseProject)
                     }
                 }
                 testCasesItemsOfGroup.push(testCaseItem);
@@ -202,6 +223,13 @@ export const WebIdeCodeActionBarDataClumps : FunctionComponent<WebIdeCodeActionB
                     items: renderTestCasesMenuItems()
                 },
             ]
+        },
+        {
+            label:'Test',
+            icon:'pi pi-fw pi-cog',
+            command: () => {
+                loadDemoProject()
+            }
         },
         {
             label:'Extra',

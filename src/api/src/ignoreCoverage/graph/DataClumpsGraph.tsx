@@ -20,6 +20,7 @@ export const DataClumpsGraph : FunctionComponent<DataClumpsGraphProps> = (props:
     const [a, setA] = useState();
 
     const dark_mode = props?.dark_mode;
+    let dataClumpsDict = props.dataClumpsDict;
 
     //const [dataClumpsDict, setDataClumpsDict] = useSynchedDataClumpsDict(); // we wont use synched variable here, since we want to export our functionality outside
 //    const [showLargeGraph, setShowLargeGraph] = useState(false);
@@ -28,14 +29,11 @@ export const DataClumpsGraph : FunctionComponent<DataClumpsGraphProps> = (props:
 
     };
 
-    function getInitialGraphFromDataClumpsDict(){
+    function getInitialGraphFromDataClumpsDict(dataClumpsDict){
         //console.log("getInitialGraphFromDataClumpsDict");
 
         let from_file_path: string | null | undefined = props?.from_file_path;
         let to_file_path: string | null | undefined = props?.to_file_path;
-
-
-        let dataClumpsDict = props.dataClumpsDict;
 
         let files_dict = {};
         let classes_dict = {};
@@ -349,10 +347,11 @@ export const DataClumpsGraph : FunctionComponent<DataClumpsGraphProps> = (props:
     }
 
 
+
 //    const [state, setState] = useState({
     let state = {
         counter: 5,
-        graph: getInitialGraphFromDataClumpsDict(),
+        graph: getInitialGraphFromDataClumpsDict(dataClumpsDict),
 /**        graph: {
             nodes: [
                 { id: 1, label: "Node 1", color: "#e04141" },
@@ -400,7 +399,7 @@ export const DataClumpsGraph : FunctionComponent<DataClumpsGraphProps> = (props:
             }
         };
         return (
-            <Graph graph={graph} options={options} events={events} style={{ height: "100%", width: "100%" }} />
+            <Graph key={JSON.stringify(graph)+JSON.stringify(options)} graph={graph} options={options} events={events} style={{ height: "100%", width: "100%" }} />
         );
     }
 

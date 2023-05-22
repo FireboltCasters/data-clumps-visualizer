@@ -22,6 +22,7 @@ import {DataClumpsGraph} from "../../api/src";
 import {WebIdeFileExplorerDropZone} from "../webIDE/WebIdeFileExplorerDropZone";
 import {WebIdeCodeActionBarViews} from "../webIDE/WebIdeActionBarViews";
 import {WebIdeFileExplorer} from "../webIDE/WebIdeFileExplorer";
+import {DataClumpsTypeContext} from "data-clumps/ignoreCoverage/DataClumpTypes";
 
 let abortController = new MyAbortController(); // Dont initialize in the component, otherwise the abortController will be new Instance
 
@@ -84,12 +85,12 @@ export const Demo : FunctionComponent<DemoProps> = (props) => {
     function renderActionBar(){
         return(
             <div style={{width: "100%"}}>
-                <WebIdeCodeActionBarDataClumps key={"1"} loadSoftwareProject={loadSoftwareProject} />
+                <WebIdeCodeActionBarDataClumps key={"1"} loadDataClumpsDict={loadDataClumpsDict} />
             </div>
         )
     }
 
-    async function loadSoftwareProject(newProject: SoftwareProject){
+    async function loadDataClumpsDict(newProject: DataClumpsTypeContext){
         setLoading(true);
         abortController.reset();
         modalOptions.visible = true;
@@ -103,22 +104,8 @@ export const Demo : FunctionComponent<DemoProps> = (props) => {
         modalOptions.content = "";
         setModalOptions(modalOptions);
         setLoading(false);
-        let autoDetectOnProjectLoad = true;
-        if(autoDetectOnProjectLoad){
-//            await onStartDetection();
-        }
-    }
-
-    function renderDataClumpsGraph(){
-
-        return(
-            <DataClumpsGraph
-                key={JSON.stringify(dataClumpsDict)+from_file_path}
-                from_file_path={from_file_path}
-                dataClumpsDict={dataClumpsDict}
-                dark_mode={dark_mode}
-            />
-        )
+        setDataClumpsDict({})
+        setDataClumpsDict(newProject);
     }
 
     function renderPanel(panel: string){
@@ -164,7 +151,7 @@ export const Demo : FunctionComponent<DemoProps> = (props) => {
 
     return (
         <div className={"p-splitter"} style={{width: "100%", height: "100vh", display: "flex", flexDirection: "row"}}>
-            <WebIdeFileExplorerDropZone loadSoftwareProject={loadSoftwareProject}>
+            <WebIdeFileExplorerDropZone loadDataClumpsDict={loadDataClumpsDict}>
             <WebIdeLayout
                 menuBarItems={actionBar}
                 panelInitialSizes={[10, 90]}
@@ -178,7 +165,7 @@ export const Demo : FunctionComponent<DemoProps> = (props) => {
             </WebIdeLayout>
             </WebIdeFileExplorerDropZone>
             <WebIdeModalProgress onAbort={onAbort} />
-            <WebIdeFileExplorerDropZoneModal loadSoftwareProject={loadSoftwareProject} />
+            <WebIdeFileExplorerDropZoneModal loadDataClumpsDict={loadDataClumpsDict} />
         </div>
     );
 }

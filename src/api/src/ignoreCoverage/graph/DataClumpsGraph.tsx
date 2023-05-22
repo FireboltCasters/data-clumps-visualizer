@@ -1,4 +1,4 @@
-import React, {FunctionComponent} from 'react';
+import React, {FunctionComponent, useState} from 'react';
 import Graph from "react-graph-vis";
 import {
     DataClumpsParameterFromContext,
@@ -16,6 +16,8 @@ export interface DataClumpsGraphProps {
 }
 
 export const DataClumpsGraph : FunctionComponent<DataClumpsGraphProps> = (props: DataClumpsGraphProps) => {
+
+    const [a, setA] = useState();
 
     const dark_mode = props?.dark_mode;
 

@@ -56,23 +56,20 @@
     "typescript": "^4.3.5"
   },
   "peerDependencies": {
-    "primereact": "*",
-    "react": "*",
-    "primereact": "*"
+    "primereact": "^8.7.3",
+    "react": "^18.2.0"
   },
   "dependencies": {
     "@babel/preset-typescript": "^7.21.0",
     "@stdlib/buffer-from-string": "^0.0.8",
     "antlr4-js-exports": "^4.12.2",
     "axios": "^0.21.4",
-    "primereact": "^8.7.3",
     "Base64": "^1.1.0",
     "base64-js": "^1.5.1",
     "buffer": "^6.0.0",
     "buffer-from": "^1.1.2",
     "data-clumps": "^0.1.79",
     "eslint": "^7.32.0",
-    "primereact": "*",
     "react": "^18.2.0",
     "react-graph-vis": "^1.0.7"
   }

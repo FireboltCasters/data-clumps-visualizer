@@ -44,7 +44,7 @@
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "prestart": "cd src/api/ && npm install",
+    "prestart": "cd src/api/ && npm install && npm link ../../node_modules/react",
     "start": "react-scripts start",
     "prebuild": "rimraf ./src/api/tests",
     "build": "react-scripts build --no-minify --env.APP_ENV=production --env.NODE_ENV=development ",

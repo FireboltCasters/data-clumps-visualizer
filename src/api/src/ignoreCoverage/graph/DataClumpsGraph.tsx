@@ -10,7 +10,8 @@ import {Button} from "primereact/button";
 // @ts-ignore
 export interface DataClumpsGraphProps {
     dataClumpsDict: DataClumpsTypeContext | null,
-    from_file_path: string | null,
+    from_file_path?: string | null | undefined,
+    to_file_path?: string | null | undefined,
 }
 
 export const DataClumpsGraph : FunctionComponent<DataClumpsGraphProps> = (props: DataClumpsGraphProps) => {
@@ -18,12 +19,16 @@ export const DataClumpsGraph : FunctionComponent<DataClumpsGraphProps> = (props:
     //const [dataClumpsDict, setDataClumpsDict] = useSynchedDataClumpsDict(); // we wont use synched variable here, since we want to export our functionality outside
 //    const [showLargeGraph, setShowLargeGraph] = useState(false);
     const showLargeGraph = true;
-    const setShowLargeGraph = (bool) => {};
+    const setShowLargeGraph = (bool) => {
+
+    };
 
     function getInitialGraphFromDataClumpsDict(){
         //console.log("getInitialGraphFromDataClumpsDict");
 
-        let active_file_path: string | null = props.from_file_path;
+        let from_file_path: string | null | undefined = props?.from_file_path;
+        let to_file_path: string | null | undefined = props?.to_file_path;
+
 
         let dataClumpsDict = props.dataClumpsDict;
 
@@ -44,8 +49,8 @@ export const DataClumpsGraph : FunctionComponent<DataClumpsGraphProps> = (props:
 
                 let shouldAnalyzeFile = true;
 
-                if(active_file_path){
-                    shouldAnalyzeFile = file_path === active_file_path
+                if(from_file_path){
+                    shouldAnalyzeFile = file_path === from_file_path
                 }
 
                 if(shouldAnalyzeFile){

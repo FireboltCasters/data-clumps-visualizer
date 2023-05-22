@@ -7,16 +7,8 @@
 </p>
 
 <h2 align="center">
-Cerberus Data Clumps Detection and Refactoring (CDCD-R)
+Data Clumps Viszualizer
 </h2>
-
-<h3 align="center">
-Let Cerberus Guard Your Code: Detect and Refactor Clumps with Ease
-</h3>
-
-<h5 align="center">
-Alternative slogan: Get a Three-Headed View of Your Data: Cerberus Detects and Refactors Clumps
-</h5>
 
 <p align="center">
   <a href="https://badge.fury.io/js/data-clumps-visualizer.svg"><img src="https://badge.fury.io/js/data-clumps-visualizer.svg" alt="npm package" /></a>
@@ -33,13 +25,20 @@ Alternative slogan: Get a Three-Headed View of Your Data: Cerberus Detects and R
 
 ## About
 
-A library to parse files and folders to check for data clumps and refactor them.
+A library to visualize data clumps.
 
-## Demo
+## Live
+Here you can upload and explore your own projects which are parsed by npm [data-clumps](https://fireboltcasters.github.io/data-clumps/):
 
 https://fireboltcasters.github.io/data-clumps-visualizer/
 
-<a href="https://fireboltcasters.github.io/data-clumps-visualizer/">
+## Demo
+
+Here you can explore the data clumps visualization for ArgoUML:
+
+https://fireboltcasters.github.io/data-clumps-visualizer/?demoType=main
+
+<a href="https://fireboltcasters.github.io/data-clumps-visualizer/?demoType=main">
   <img src="https://github.com/FireboltCasters/data-clumps-visualizer/raw/master/docs/demo.gif" alt="backup" style="witdth:100px;"/>
 </a>
     
@@ -54,57 +53,39 @@ npm install data-clumps-visualizer
 
 Have a look at the development example in [development.ts](https://github.com/FireboltCasters/data-clumps-visualizer/blob/master/src/api/src/ignoreCoverage/development.ts)
 
-```
-import {SoftwareProject} from "data-clumps-visualizer";
+```tsx
+import React, {useState} from 'react';
+import {DataClumpsGraph, ExampleData} from "data-clumps-visualizer";
 
-async function main(){
-  console.log("1. Create empty project");
-  let project: SoftwareProject = new SoftwareProject(["java"]);
-  console.log("2. Add files to project");
-  // for all files from your project
-  let virtualPathToFile = "/myExampleProject/src/HelloWorld.java";
-    let fileContent = "public class HelloWorld{ ... }";
-    project.addFileContent(virtualPathToFile, fileContent);
-  
-  console.log("3. Let the file be parsed");
-  await project.parseSoftwareProject();
-  
-  console.log(4. Detect Data-Clumps");
-  let dataClumpsContext = await project.detectDataClumps()
-  
-  console.log("5. Detected Data-Clumps");
-  console.log(dataClumpsContext);
+const from_file_path = null;
+const dataClumpsDict = ExampleData.getArgoUML(); // or your own data
+
+export default class App extends React.Component<any, any> {
+  constructor(props: any) {
+    super(props);
+  }
+å
+  render(){
+    return (
+        <DataClumpsGraph 
+                key={JSON.stringify(dataClumpsDict)+from_file_path} 
+                from_file_path={from_file_path} 
+                dataClumpsDict={dataClumpsDict} 
+        />
+    );
+  }
 }
 
-main();
 ```
 
 ## Roadmap
 
-- [ ] Integrate website-to-gif: https://github.com/PabloLec/website-to-gif
-- [ ] Support Java
-    - [X] Integrated Antlr4
-    - [X] Converting of JavaCST to JavaAST
-    - [X] Creating Data Clumps AST
-    - [X] Find minimum of LCSD found files
-    - [X] Investigate why more files than LCSD have been found
-    - [ ] Support anonymous classes    
-    - [ ] Implement Java Refactor Interface
-- [ ] Support TypeScript
-- [ ] Support JavaScript
-- [ ] Support Python
-- [ ] Support C#
-- [ ] Support C++
+- [x] Integrate website-to-gif: https://github.com/PabloLec/website-to-gif
+- [ ] Implement different visualizations
+  - [x] simple graph visualization
+- [ ] Add sidebar menu to select specific file/class/method
+- [ ] Server side image generation
 
-## Usage example
-
-```javascript
-import {Parser} from 'data-clumps-visualizer';
-
-async function exampleParse() {
-
-}
-```
 
 ## License
 

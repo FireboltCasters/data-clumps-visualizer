@@ -66,12 +66,13 @@
     "axios": "^0.21.4",
     "Base64": "^1.1.0",
     "base64-js": "^1.5.1",
-    "primereact": "*",
     "buffer": "^6.0.0",
     "buffer-from": "^1.1.2",
     "data-clumps": "^0.1.79",
     "eslint": "^7.32.0",
+    "primereact": "^8.7.3",
     "react": "^18.2.0",
-    "react-graph-vis": "^1.0.7"
+    "react-graph-vis": "^1.0.7",
+    "uuid": "^9.0.0"
   }
 }

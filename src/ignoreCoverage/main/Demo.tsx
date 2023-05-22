@@ -4,8 +4,6 @@ import {
     useIsDarkModeEnabled,
     useSynchedActiveFileKey,
     useSynchedDataClumpsDict,
-    useSynchedDetectorOptions,
-    useSynchedFileExplorerTree,
     useSynchedModalState,
     useSynchedOpenedFiles,
     useSynchedViewOptions,
@@ -16,7 +14,7 @@ import {WebIdeLayout} from "../webIDE/WebIdeLayout";
 import {SynchedStates} from "../storage/SynchedStates";
 import {WebIdeCodeActionBarDataClumps} from "../webIDE/WebIdeActionBarDataClumps";
 import {WebIdeModalProgress} from "../webIDE/WebIdeModalProgress";
-import {MyAbortController, ParserOptions, SoftwareProject} from "data-clumps";
+import {MyAbortController, ParserOptions} from "data-clumps";
 import {WebIdeFileExplorerDropZoneModal} from "../webIDE/WebIdeFileExplorerDropZoneModal";
 import {DataClumpsGraph} from "../../api/src";
 import {WebIdeFileExplorerDropZone} from "../webIDE/WebIdeFileExplorerDropZone";

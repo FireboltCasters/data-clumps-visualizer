@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useState} from 'react';
+import React, {FunctionComponent, useMemo, useState} from 'react';
 import Graph from "react-graph-vis";
 import {
     DataClumpsParameterFromContext,
@@ -6,6 +6,7 @@ import {
     DataClumpTypeContext
 } from "data-clumps/ignoreCoverage/DataClumpTypes";
 import {Button} from "primereact/button";
+import { v4 as uuidv4 } from 'uuid'
 
 // @ts-ignore
 export interface DataClumpsGraphProps {
@@ -22,6 +23,10 @@ export const DataClumpsGraph : FunctionComponent<DataClumpsGraphProps> = (props:
 
     const dark_mode = props?.dark_mode;
     let dataClumpsDict = props.dataClumpsDict;
+    const from_file_path = props?.from_file_path;
+    const to_file_path = props?.to_file_path;
+
+    const version = useMemo(uuidv4, [dataClumpsDict,from_file_path,to_file_path,dark_mode])
 
     //const [dataClumpsDict, setDataClumpsDict] = useSynchedDataClumpsDict(); // we wont use synched variable here, since we want to export our functionality outside
 //    const [showLargeGraph, setShowLargeGraph] = useState(false);
@@ -400,7 +405,7 @@ export const DataClumpsGraph : FunctionComponent<DataClumpsGraphProps> = (props:
             }
         };
         return (
-            <Graph key={props?.key} graph={graph} options={options} events={events} style={{ height: "100%", width: "100%" }} />
+            <Graph key={version} graph={graph} options={options} events={events} style={{ height: "100%", width: "100%" }} />
         );
     }
 

@@ -44,11 +44,12 @@
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "prestart": "cd src/api/ && npm install && npm link ../../node_modules/react",
+    "prestart": "cd src/api/ && npm install && npm run linkReactToOuter",
     "start": "react-scripts start",
-    "prebuild": "rimraf ./src/api/tests",
+    "prebuild": "rimraf ./src/api/tests && cd ./src/api/ && npm ci && npm run linkReactToOuter && npm run build && cd ../../",
     "build": "react-scripts build --no-minify --env.APP_ENV=production --env.NODE_ENV=development ",
     "dev": "react-scripts start",
+    "production": "npm run build && npm run serve",
     "serve": "npx serve -s ./build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

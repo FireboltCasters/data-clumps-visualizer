@@ -11,6 +11,7 @@
     "start": "npm run build && node ./build/ignoreCoverage/development.js",
     "build": "rimraf ./build && tsc && cp package.json ./build && cp ./../../README.md ./build && cp ./../../LICENSE.md ./build",
     "dev": "nodemon",
+    "linkReactToOuter": "npm link ../../node_modules/react",
     "_prepareUpload": "npm run build && rimraf ./coverage && rimraf ./build/tests",
     "_uploadBuild": "cd ./build && npm pack && npm publish && cd ..",
     "_uploadWithoutPatch": "npm run _prepareUpload && npm run _uploadBuild && npm run clean",

@@ -18,7 +18,6 @@ jobs:
           node-version: '14.x'
           registry-url: 'https://registry.npmjs.org'
       - run: npm ci
-      - run: cd ./src/api/ && npm ci && npm run build && cd ../../
       - run: git config --global user.name 'Firebolt Caster'
       - run: git config --global user.email 'nilsbaumgartner@live.de'
       #https://www.npmjs.com/package/gh-pages

@@ -4,7 +4,7 @@ import {
     DataClumpsParameterFromContext,
     DataClumpsTypeContext,
     DataClumpTypeContext
-} from "data-clumps/ignoreCoverage/DataClumpTypes";
+} from "data-clumps-type-context";
 import {Button} from "primereact/button";
 import { v4 as uuidv4 } from 'uuid'
 
@@ -261,7 +261,7 @@ export const DataClumpsGraph : FunctionComponent<DataClumpsGraphProps> = (props:
     }
 
     function initNodesForDataClumpData(dataClumpHolder: DataClumpTypeContext, dataClumpData: DataClumpsParameterFromContext, files_dict, classes_dict, fields_dict, methods_dict, parameters_dict){
-        let file_path = dataClumpHolder.file_path;
+        let file_path = dataClumpHolder.from_file_path;
         let file_node = getRawFileNode(file_path, files_dict);
 
         let data_clump_type = dataClumpHolder.data_clump_type;
@@ -272,11 +272,11 @@ export const DataClumpsGraph : FunctionComponent<DataClumpsGraphProps> = (props:
             let parameter_key = dataClumpData.key;
             let parameter_name = dataClumpData.name;
 
-            let method_key = dataClumpHolder.method_key+"";
-            let method_name = dataClumpHolder.method_name+"";
+            let method_key = dataClumpHolder.from_method_key+"";
+            let method_name = dataClumpHolder.from_method_name+"";
 
-            let classOrInterfaceKey = dataClumpHolder.class_or_interface_key;
-            let classOrInterfaceName = dataClumpHolder.class_or_interface_name;
+            let classOrInterfaceKey = dataClumpHolder.from_class_or_interface_key;
+            let classOrInterfaceName = dataClumpHolder.from_class_or_interface_name;
 
             let class_or_interface_node = getRawClassesOrInterfacesNode(classOrInterfaceKey, classOrInterfaceName, classes_dict);
             file_node.classes_or_interfaces_ids[class_or_interface_node.id] = class_or_interface_node.id;
@@ -287,28 +287,26 @@ export const DataClumpsGraph : FunctionComponent<DataClumpsGraphProps> = (props:
             let parameter_node = getRawParameterNode(parameter_key, parameter_name, parameters_dict);
             method_node.parameter_ids[parameter_node.id] = parameter_node.id;
 
-
-            let related_to_context = dataClumpData.related_to_context;
-            let related_to_parameter_context = related_to_context.parameter;
+            let related_to_parameter_context = dataClumpData.to_variable;
             let related_to_parameter_key = related_to_parameter_context.key;
             let related_to_parameter_name = related_to_parameter_context.name;
             let related_to_parameter_node = getRawParameterNode(related_to_parameter_key, related_to_parameter_name, parameters_dict);
 
             createRawLinkBetweenParameterOrFieldNodes(parameter_node, related_to_parameter_node);
 
-            let related_to_method_key = related_to_context.method_key+""
-            let related_to_method_name = related_to_context.method_name+"";
+            let related_to_method_key = dataClumpHolder.to_method_key+""
+            let related_to_method_name = dataClumpHolder.to_method_name+"";
 
             let related_to_method_node = getRawMethodNode(related_to_method_key, related_to_method_name, methods_dict);
             related_to_method_node.parameter_ids[related_to_parameter_node.id] = related_to_parameter_node.id;
 
-            let related_to_class_or_interface_key = related_to_context.class_or_interface_key;
-            let related_to_class_or_interface_name = related_to_context.class_or_interface_name;
+            let related_to_class_or_interface_key = dataClumpHolder.to_class_or_interface_key;
+            let related_to_class_or_interface_name = dataClumpHolder.to_class_or_interface_name;
 
             let related_to_class_or_interface_node = getRawClassesOrInterfacesNode(related_to_class_or_interface_key, related_to_class_or_interface_name, classes_dict);
             related_to_class_or_interface_node.method_ids[related_to_method_node.id] = related_to_method_node.id;
 
-            let related_to_file_path = related_to_context.file_path;
+            let related_to_file_path = dataClumpHolder.to_file_path;
             let related_to_file_node = getRawFileNode(related_to_file_path, files_dict);
 
             related_to_file_node.classes_or_interfaces_ids[related_to_class_or_interface_node.id] = related_to_class_or_interface_node.id;
@@ -320,8 +318,8 @@ export const DataClumpsGraph : FunctionComponent<DataClumpsGraphProps> = (props:
             let field_key = dataClumpData.key;
             let field_name = dataClumpData.name;
 
-            let classOrInterfaceKey = dataClumpHolder.class_or_interface_key;
-            let classOrInterfaceName = dataClumpHolder.class_or_interface_name;
+            let classOrInterfaceKey = dataClumpHolder.from_class_or_interface_key;
+            let classOrInterfaceName = dataClumpHolder.from_class_or_interface_name;
 
             let class_or_interface_node = getRawClassesOrInterfacesNode(classOrInterfaceKey, classOrInterfaceName, classes_dict);
             file_node.classes_or_interfaces_ids[class_or_interface_node.id] = class_or_interface_node.id;
@@ -330,8 +328,7 @@ export const DataClumpsGraph : FunctionComponent<DataClumpsGraphProps> = (props:
             let field_node = getRawFieldNode(field_key, field_name, fields_dict);
             class_or_interface_node.field_ids[field_node.id] = field_node.id;
 
-            let related_to_context = dataClumpData.related_to_context;
-            let related_to_field_context = related_to_context.parameter;
+            let related_to_field_context = dataClumpData.to_variable;
             let related_to_field_key = related_to_field_context.key;
             let related_to_field_name = related_to_field_context.name;
 
@@ -340,13 +337,13 @@ export const DataClumpsGraph : FunctionComponent<DataClumpsGraphProps> = (props:
 
             createRawLinkBetweenParameterOrFieldNodes(field_node, related_to_field_node);
 
-            let related_to_class_or_interface_key = related_to_context.class_or_interface_key
-            let related_to_class_or_interface_name = related_to_context.class_or_interface_name
+            let related_to_class_or_interface_key = dataClumpHolder.to_class_or_interface_key
+            let related_to_class_or_interface_name = dataClumpHolder.to_class_or_interface_name
             let related_to_class_or_interface_node = getRawClassesOrInterfacesNode(related_to_class_or_interface_key, related_to_class_or_interface_name, classes_dict);
             related_to_class_or_interface_node.field_ids[related_to_field_node.id] = related_to_field_node.id;
 
 
-            let related_to_file_path = related_to_context.file_path
+            let related_to_file_path = dataClumpHolder.to_file_path
             let related_to_file_node = getRawFileNode(related_to_file_path, files_dict);
             related_to_file_node.classes_or_interfaces_ids[related_to_class_or_interface_node.id] = related_to_class_or_interface_node.id;
         }

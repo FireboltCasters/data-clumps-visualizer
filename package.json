@@ -22,7 +22,7 @@
     "buffer-from": "^1.1.2",
     "chart.js": "^3.7.1",
     "dagre": "^0.8.5",
-    "data-clumps": "^0.1.79",
+    "data-clumps-type-context": "^0.1.79",
     "dotenv": "^16.0.3",
     "easy-peasy": "^6.0.0",
     "jszip": "^3.10.1",

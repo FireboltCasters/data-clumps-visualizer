@@ -69,7 +69,7 @@
     "base64-js": "^1.5.1",
     "buffer": "^6.0.0",
     "buffer-from": "^1.1.2",
-    "data-clumps": "^0.1.79",
+    "data-clumps-type-context": "^0.1.79",
     "eslint": "^7.32.0",
     "primereact": "^8.7.3",
     "react": "^18.2.0",

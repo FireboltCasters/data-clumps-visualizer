@@ -2,10 +2,8 @@ import {action, createStore, useStoreActions, useStoreState} from "easy-peasy";
 import {KeyExtractorHelper} from "./KeyExtractorHelper";
 import {SynchedStates} from "./SynchedStates";
 import {SynchedVariableInterface} from "./SynchedVariableInterface";
-import {DataClumpsTypeContext} from "data-clumps/ignoreCoverage/DataClumpTypes";
+import {DataClumpsTypeContext} from "data-clumps-type-context";
 import {useEffect, useState} from "react";
-import {Detector, DetectorOptions} from "data-clumps";
-import {ExampleData} from "../../api/src/ignoreCoverage/exampleData/ExampleData";
 
 export function useSynchedState(storageKey): [value: string, setValue: (value) => {}] {
     const value = useStoreState((state) => {
@@ -54,16 +52,6 @@ export function useSynchedModalState(storageKey): [value: ModalOptions, setValue
     return [
         useModalOptions,
         setValue
-    ]
-}
-
-export function useSynchedDetectorOptions(): [value: DetectorOptions, setValue: (value: any) => void] {
-    const [detectorOptions, setDetectorOptions] = useSynchedJSONState(SynchedStates.detectorOptions);
-
-    const useModalOptions = Detector.getDefaultOptions(detectorOptions);
-    return [
-        useModalOptions,
-        setDetectorOptions
     ]
 }
 

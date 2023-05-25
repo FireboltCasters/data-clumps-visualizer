@@ -2,19 +2,15 @@ import React, {FunctionComponent, useEffect} from 'react';
 import {
     ColorModeOptions,
     useDemoType,
-    useSynchedActiveFileKey,
     useSynchedColorModeOption,
-    useSynchedDataClumpsDict,
     useSynchedModalState,
     useSynchedViewOptions,
     ViewOptionValues
 } from "../storage/SynchedStateHelper";
-import {Languages, SoftwareProject} from "data-clumps";
 import {WebIdeCodeActionBar} from "./WebIdeActionBar";
 import {SynchedStates} from "../storage/SynchedStates";
-import {TestCaseBaseClassGroup} from "data-clumps/ignoreCoverage/TestCaseBaseClass";
 import {ExampleData} from "../../api/src/ignoreCoverage/exampleData/ExampleData";
-import {DataClumpsTypeContext} from "data-clumps/ignoreCoverage/DataClumpTypes";
+import {DataClumpsTypeContext} from "data-clumps-type-context";
 
 // @ts-ignore
 export interface WebIdeCodeActionBarDataClumpsProps {
@@ -41,28 +37,6 @@ export const WebIdeCodeActionBarDataClumps : FunctionComponent<WebIdeCodeActionB
         //let demoDataClumpsDict = ExampleData.getArgoUML();
         let demoDataClumpsDict = ExampleData.getTestData();
         props.loadDataClumpsDict(demoDataClumpsDict)
-
-        let languages = Languages.getLanguages();
-        if(languages && languages.length>0){
-            let language = languages[0];
-            let positiveTestCases = language.getPositiveTestCasesGroupsDataClumps();
-            if(!!positiveTestCases && positiveTestCases.length>0){
-                let positiveTestCaseGroup = positiveTestCases[0];
-                if(!!positiveTestCaseGroup){
-                    let positiveTestCasesForGroup = positiveTestCaseGroup.testCases;
-                    if(!!positiveTestCasesForGroup && positiveTestCasesForGroup.length>0){
-                        let positiveTestCase = positiveTestCasesForGroup[0];
-                        if(!!positiveTestCase){
-                            let testCaseProject = positiveTestCase.getSoftwareProject()
-                            await testCaseProject.parseSoftwareProject();
-                            let demoDataClumpsDict = await testCaseProject.detectDataClumps();
-                            //setDataClumpsDict(demoDataClumpsDict);
-                            //props.loadDataClumpsDict(demoDataClumpsDict)
-                        }
-                    }
-                }
-            }
-        }
     }
 
     function getViewOptionItemEditorHighlightFieldAndParameters(){
@@ -101,106 +75,6 @@ export const WebIdeCodeActionBarDataClumps : FunctionComponent<WebIdeCodeActionB
         }
     }
 
-
-    function getTestCaseGroupsMenuItems(testCaseGroups: TestCaseBaseClassGroup[]){
-        let testCasesItems: any[] = [];
-        for(let testCaseGroup of testCaseGroups){
-            let testCasesItemsOfGroup: any[] = [];
-
-            let subGroups = testCaseGroup.subGroups;
-            if(!!subGroups){
-                let subGroupsItems = getTestCaseGroupsMenuItems(subGroups);
-                testCasesItemsOfGroup.push(...subGroupsItems);
-            }
-
-            let testCases = testCaseGroup.testCases
-            for(let testCase of testCases){
-                let testCaseProject = testCase.getSoftwareProject()
-                let testCaseName = testCase.getName();
-                let testCaseItem = {
-                    label: testCaseName,
-                    icon:'pi pi-fw',
-                    command: async () => {
-                        //console.log("load test case", testCaseName)
-                        //console.log("testCaseProject")
-                        //console.log(testCaseProject)
-                        //await props.loadDataClumpsDict(testCaseProject)
-                    }
-                }
-                testCasesItemsOfGroup.push(testCaseItem);
-            }
-
-            let testCaseItem = {
-                label: testCaseGroup.name,
-                icon:'pi pi-fw',
-                items: testCasesItemsOfGroup
-            }
-
-            testCasesItems.push(testCaseItem);
-        }
-        return testCasesItems;
-    }
-
-    function renderTestCasesMenuItems(){
-        let languages = Languages.getLanguages();
-        let items: any[] = [];
-        for(let language of languages){
-            let identifier = language.getIdentifier();
-            //console.log("identifier", identifier)
-
-
-
-            let positiveTestCases = language.getPositiveTestCasesGroupsDataClumps();
-            let testCasePositiveItem = {
-                label: "Positives",
-                icon:'pi pi-fw',
-                items: getTestCaseGroupsMenuItems(positiveTestCases)
-            }
-
-            let negativeTestCases = language.getNegativeTestCasesCasesDataClumps();
-            let testCaseNegativeItem = {
-                label: "Negatives",
-                icon:'pi pi-fw',
-                items: getTestCaseGroupsMenuItems(negativeTestCases)
-            }
-
-            let unknownTestCases = language.getUnknownTestCasesCasesDataClumps();
-            let testCaseUnknownItem = {
-                label: "Unknowns",
-                icon:'pi pi-fw',
-                items: getTestCaseGroupsMenuItems(unknownTestCases)
-            }
-
-            let testCasesDataClumps = {
-                label: "Data-Clumps",
-                icon:'pi pi-fw',
-                items: [
-                    testCasePositiveItem,
-                    testCaseNegativeItem,
-                    testCaseUnknownItem
-                ]
-            }
-
-            let parserTestCasesGroups = language.getTestCasesGroupsParser();
-            let testCasesParser = {
-                label: "Parser",
-                icon:'pi pi-fw',
-                items: getTestCaseGroupsMenuItems(parserTestCasesGroups)
-            }
-
-            items.push({
-                label: identifier,
-                icon:'pi pi-fw',
-                items: [
-                    testCasesDataClumps,
-                    testCasesParser
-                ]
-            });
-        }
-        return items;
-    }
-
-
     const items = [
         {
             label:'File',
@@ -218,9 +92,9 @@ export const WebIdeCodeActionBarDataClumps : FunctionComponent<WebIdeCodeActionB
                     separator:true
                 },
                 {
-                    label:'Test Cases',
+                    label:'Test Cases (TODO)',
                     icon:'pi pi-fw pi-book',
-                    items: renderTestCasesMenuItems()
+                    disabled: true
                 },
             ]
         },

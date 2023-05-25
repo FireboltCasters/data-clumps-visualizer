@@ -5,12 +5,12 @@ import {FileTree, FileTreeProps, TreeNode, utils} from '@sinm/react-file-tree';
 import '@sinm/react-file-tree/styles.css';
 import '@sinm/react-file-tree/icons.css';
 import {
-    useSynchedActiveFileKey, useSynchedDataClumpsDict,
+    useSynchedActiveFileKey,
+    useSynchedDataClumpsDict,
     useSynchedFileExplorerTree,
-    useSynchedOpenedFiles,
 } from "../storage/SynchedStateHelper"
 import {WebIdeFileExplorerNode} from "./WebIdeFileExplorerNode";
-import {DataClumpsTypeContext, DataClumpTypeContext} from "data-clumps/ignoreCoverage/DataClumpTypes";
+import {DataClumpsTypeContext, DataClumpTypeContext} from "data-clumps-type-context";
 
 // @ts-ignore
 export interface WebIdeFileExplorerProps {
@@ -26,7 +26,7 @@ function getFilePathsFromDataClumpsDict(dataClumpsDict: DataClumpsTypeContext){
     let data_clumps_keys = Object.keys(data_clumps);
     for(let data_clump_key of data_clumps_keys){
         let data_clump: DataClumpTypeContext = data_clumps[data_clump_key];
-        let from_file_path = data_clump.file_path
+        let from_file_path = data_clump.from_file_path
         filePathDict[from_file_path] = from_file_path;
     }
 

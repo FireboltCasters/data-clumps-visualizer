@@ -2,9 +2,7 @@ import React, {FunctionComponent, ReactNode} from 'react';
 // default style
 import '@sinm/react-file-tree/styles.css';
 import '@sinm/react-file-tree/icons.css';
-import {SoftwareProject} from "data-clumps";
-import {MyFile} from "data-clumps/ignoreCoverage/ParsedAstTypes";
-import {DataClumpsTypeContext} from "data-clumps/ignoreCoverage/DataClumpTypes";
+import {DataClumpsTypeContext} from "data-clumps-type-context";
 
 // @ts-ignore
 export interface WebIdeFileExplorerDropZoneProps {
@@ -68,9 +66,10 @@ export const WebIdeFileExplorerDropZone : FunctionComponent<WebIdeFileExplorerDr
         });
     }
 
-    async function handleLoadFiles(files): Promise<SoftwareProject>{
+    async function handleLoadFiles(files): Promise<any>{
         const items = files;
 
+        /**
         const newProject = new SoftwareProject(["java"]);
 
         for (let i = 0; i < items.length; i++) {
@@ -81,6 +80,7 @@ export const WebIdeFileExplorerDropZone : FunctionComponent<WebIdeFileExplorerDr
         }
 
         return newProject;
+         */
     }
 
     async function handleDrop(event){
@@ -106,11 +106,13 @@ export const WebIdeFileExplorerDropZone : FunctionComponent<WebIdeFileExplorerDr
                 // @ts-ignore
                 const fileContent = await file.text();
                 let name = file.name;
+                /**
                 let myFile: MyFile = new MyFile(
                     path+name,
                     fileContent
                 );
                 newProject.addFile(myFile);
+                 */
             } catch (err){
                 //console.log("Error while reading file");
                 //console.log(err);

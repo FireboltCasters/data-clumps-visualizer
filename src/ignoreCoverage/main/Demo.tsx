@@ -14,15 +14,12 @@ import {WebIdeLayout} from "../webIDE/WebIdeLayout";
 import {SynchedStates} from "../storage/SynchedStates";
 import {WebIdeCodeActionBarDataClumps} from "../webIDE/WebIdeActionBarDataClumps";
 import {WebIdeModalProgress} from "../webIDE/WebIdeModalProgress";
-import {MyAbortController, ParserOptions} from "data-clumps";
 import {WebIdeFileExplorerDropZoneModal} from "../webIDE/WebIdeFileExplorerDropZoneModal";
 import {DataClumpsGraph} from "../../api/src";
 import {WebIdeFileExplorerDropZone} from "../webIDE/WebIdeFileExplorerDropZone";
 import {WebIdeCodeActionBarViews} from "../webIDE/WebIdeActionBarViews";
 import {WebIdeFileExplorer} from "../webIDE/WebIdeFileExplorer";
-import {DataClumpsTypeContext} from "data-clumps/ignoreCoverage/DataClumpTypes";
-
-let abortController = new MyAbortController(); // Dont initialize in the component, otherwise the abortController will be new Instance
+import {DataClumpsTypeContext} from "data-clumps-type-context";
 
 export interface DemoProps {
 
@@ -39,7 +36,6 @@ export const Demo : FunctionComponent<DemoProps> = (props) => {
 
     let onAbort = async () => {
         //console.log("Demo: onAbort")
-        abortController.abort();
     }
 
     const [dataClumpsDict, setDataClumpsDict] = useSynchedDataClumpsDict();
@@ -51,14 +47,6 @@ export const Demo : FunctionComponent<DemoProps> = (props) => {
         document.title = "data-clumps-visualizer api Demo"
     }, [])
 
-    //TODO viszualize Graph?: react-graph-vis
-
-    function getParserOptions(){
-        let parserOptions = new ParserOptions({
-            includePositions: true,
-        });
-        return parserOptions;
-    }
 
     async function generateAstCallback(message, index, total): Promise<void> {
         let content = `${index}/${total}: ${message}`;
@@ -90,7 +78,6 @@ export const Demo : FunctionComponent<DemoProps> = (props) => {
 
     async function loadDataClumpsDict(newProject: DataClumpsTypeContext){
         setLoading(true);
-        abortController.reset();
         modalOptions.visible = true;
         modalOptions.content = "Loading project...";
         setModalOptions(modalOptions);

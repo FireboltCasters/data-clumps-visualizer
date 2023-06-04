@@ -2,8 +2,30 @@ export class ExampleDataArgoUML{
     static getDataClumpsDict(){
         return (
             {
-                "version": "0.0.2",
-                "options": {},
+                "report_version": "0.1.93",
+                "report_timestamp": "2023-06-04T16:55:40.566Z",
+                "target_language": "java",
+                "detector": {
+                    "name": "FireboltCasters/data-clumps",
+                    "version": "0.1.87",
+                    "options": {
+                        "sharedFieldParametersMinimum": 3,
+                        "sharedFieldParametersCheckIfAreSubtypes": false,
+                        "subclassInheritsAllMembersFromSuperclass": false,
+                        "sharedMethodParametersMinimum": 3,
+                        "sharedMethodParametersHierarchyConsidered": false,
+                        "analyseMethodsWithUnknownHierarchy": false
+                    }
+                },
+                "report_summary": {
+                    "amount_data_clumps": 224
+                },
+                "project_info": {
+                    "project_name": "ArgoUML",
+                    "project_version": "f6bf1c04b18811c6628c5bc845695eeda4d70a78",
+                    "project_commit": "f6bf1c04b18811c6628c5bc845695eeda4d70a78",
+                    "additional": {}
+                },
                 "data_clumps": {
                     "src/org/argouml/ui/cmd/ShortcutMgr.java-org.argouml.ui.cmd.ShortcutMgr-org.argouml.ui.cmd.ShortcutMgr-shortcutKeydefaultKeyStrokeaction": {
                         "type": "data_clump",

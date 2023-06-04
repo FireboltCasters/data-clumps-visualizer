@@ -2,8 +2,30 @@ export class ExampleTestData{
     static getDataClumpsDict(){
         return (
             {
-                "version": "0.0.2",
-                "options": {},
+                "report_version": "0.1.93",
+                "report_timestamp": "2023-06-04T16:55:40.566Z",
+                "target_language": "java",
+                "detector": {
+                    "name": "FireboltCasters/data-clumps",
+                    "version": "0.1.87",
+                    "options": {
+                        "sharedFieldParametersMinimum": 3,
+                        "sharedFieldParametersCheckIfAreSubtypes": false,
+                        "subclassInheritsAllMembersFromSuperclass": false,
+                        "sharedMethodParametersMinimum": 3,
+                        "sharedMethodParametersHierarchyConsidered": false,
+                        "analyseMethodsWithUnknownHierarchy": false
+                    }
+                },
+                "report_summary": {
+                    "amount_data_clumps": 2
+                },
+                "project_info": {
+                    "project_name": "ExampleTestData",
+                    "project_version": "unknown",
+                    "project_commit": "unknown",
+                    "additional": {}
+                },
                 "data_clumps": {
                     "Fields1.java-Fields1-Fields2-xys": {
                         "type": "data_clump",

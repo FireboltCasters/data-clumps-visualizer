@@ -1,7 +1,7 @@
 import React, {FunctionComponent, useMemo, useState} from 'react';
 import Graph from "react-graph-vis";
 import {
-    DataClumpsParameterFromContext,
+    DataClumpsVariableFromContext,
     DataClumpsTypeContext,
     DataClumpTypeContext
 } from "data-clumps-type-context";
@@ -260,7 +260,7 @@ export const DataClumpsGraph : FunctionComponent<DataClumpsGraphProps> = (props:
         related_to_field_node.related_to[field_node.id] = field_node.id;
     }
 
-    function initNodesForDataClumpData(dataClumpHolder: DataClumpTypeContext, dataClumpData: DataClumpsParameterFromContext, files_dict, classes_dict, fields_dict, methods_dict, parameters_dict){
+    function initNodesForDataClumpData(dataClumpHolder: DataClumpTypeContext, dataClumpData: DataClumpsVariableFromContext, files_dict, classes_dict, fields_dict, methods_dict, parameters_dict){
         let file_path = dataClumpHolder.from_file_path;
         let file_node = getRawFileNode(file_path, files_dict);
 

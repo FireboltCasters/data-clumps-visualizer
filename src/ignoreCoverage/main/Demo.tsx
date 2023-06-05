@@ -77,6 +77,7 @@ export const Demo : FunctionComponent<DemoProps> = (props) => {
     }
 
     async function loadDataClumpsDict(newProject: DataClumpsTypeContext){
+        console.log("loadDataClumpsDict")
         setLoading(true);
         modalOptions.visible = true;
         modalOptions.content = "Loading project...";

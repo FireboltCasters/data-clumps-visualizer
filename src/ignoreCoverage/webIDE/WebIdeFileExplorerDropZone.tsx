@@ -67,71 +67,46 @@ export const WebIdeFileExplorerDropZone : FunctionComponent<WebIdeFileExplorerDr
     }
 
     async function handleLoadFiles(files): Promise<any>{
+        console.log("handleLoadFiles")
         const items = files;
 
-        /**
-        const newProject = new SoftwareProject(["java"]);
+        let newProject: DataClumpsTypeContext | null = null;
 
         for (let i = 0; i < items.length; i++) {
             const item = items[i].webkitGetAsEntry();
             if (item) {
-                await traverseFileTree(item, '', newProject);
+                if (item.isFile) {
+                    try {
+                        let file = await getFileFromEntry(item);
+                        // @ts-ignore
+                        const fileContent = await file.text();
+                        let name = file.name;
+                        newProject = JSON.parse(fileContent);
+                    } catch (err) {
+                        console.log("Error while reading file");
+                        console.log(err);
+                    }
+                } else {
+                    console.log("Error: Dropped item is not a file");
+                }
             }
         }
 
         return newProject;
-         */
     }
 
     async function handleDrop(event){
         event.preventDefault();
-        //console.log("handleDrop")
-        //console.log(event)
+        console.log("handleDrop")
+        console.log(event)
         const data = event.dataTransfer;
         const items = data.items;
         //TODO: handle parse drop single file
-//        let newProject = await handleLoadFiles(items);
-//        await props.loadDataClumpsDict(newProject);
+        let newProject = await handleLoadFiles(items);
+        await props.loadDataClumpsDict(newProject);
 
         if(props.onDropComplete){
             await props.onDropComplete();
-        }
-    }
-
-    async function traverseFileTree(item, path, newProject){
-        path = path || '';
-        if (item.isFile) {
-            try{
-                let file = await getFileFromEntry(item);
-                // @ts-ignore
-                const fileContent = await file.text();
-                let name = file.name;
-                /**
-                let myFile: MyFile = new MyFile(
-                    path+name,
-                    fileContent
-                );
-                newProject.addFile(myFile);
-                 */
-            } catch (err){
-                //console.log("Error while reading file");
-                //console.log(err);
-            }
-
-        } else if (item.isDirectory) {
-
-            let dirName = item.name;
-            if(dirName === "node_modules"){
-                //console.log("Ignore node_modules");
-                return;
-            }
-
-            let entries = await getFileEntriesFromDictionary(item);
-
-            for (let i = 0; i < entries.length; i++) {
-                let entry = entries[i];
-                await traverseFileTree(entries[i], path + item.name + '/', newProject);
-            }
         }
     }
 

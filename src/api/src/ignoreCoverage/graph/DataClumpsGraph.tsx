@@ -195,8 +195,8 @@ export const DataClumpsGraph : FunctionComponent<DataClumpsGraphProps> = (props:
             file_node = {
                 id: file_path,
                 label: file_name,
-                color: "#F6E146",
-                font: { color: '#000000' },
+                color: "#636363",
+                font: { color: '#FFFFFF' },
                 classes_or_interfaces_ids: {},
             }
             files_dict[file_node.id] = file_node;
@@ -212,7 +212,7 @@ export const DataClumpsGraph : FunctionComponent<DataClumpsGraphProps> = (props:
             class_or_interface_node = {
                 id: classOrInterface_key,
                 label: classOrInterface_name,
-                color: "#63731C",
+                color: "#6D6921",
                 font: { color: '#ffffff' },
                 field_ids: {},
                 method_ids: {},
@@ -228,7 +228,7 @@ export const DataClumpsGraph : FunctionComponent<DataClumpsGraphProps> = (props:
             method_node = {
                 id: method_key,
                 label: method_name,
-                color: "#F79B59",
+                color: "#CBCBAE",
                 font: { color: '#000000' },
                 parameter_ids: {},
             }
@@ -243,8 +243,8 @@ export const DataClumpsGraph : FunctionComponent<DataClumpsGraphProps> = (props:
             parameter_node = {
                 id: parameter_key,
                 label: parameter_name,
-                color: "#F4001D",
-                font: { color: '#ffffff' },
+                color: "#F6E146",
+                font: { color: '#000000' },
                 related_to: {},
             }
             parameters_dict[parameter_node.id] = parameter_node;

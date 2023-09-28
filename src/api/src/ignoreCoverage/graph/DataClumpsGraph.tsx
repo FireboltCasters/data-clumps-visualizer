@@ -184,7 +184,12 @@ export const DataClumpsGraph : FunctionComponent<DataClumpsGraphProps> = (props:
 
     function getRawFileNode(file_path, files_dict: any){
         let file_node = files_dict[file_path];
-        let file_name = file_path.split("/").pop();
+        let file_name = file_path
+        try{
+            file_name = file_path.split("/").pop();
+        } catch (e) {
+            // could not split file_path, so just use file_path as file_name
+        }
 
         if(!file_node){
             file_node = {

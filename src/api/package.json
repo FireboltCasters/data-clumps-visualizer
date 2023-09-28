@@ -1,6 +1,6 @@
 {
   "name": "data-clumps-visualizer",
-  "version": "0.1.92",
+  "version": "0.1.93",
   "description": "This is a package to identify data-clumps-visualizer",
   "main": "index.js",
   "types": "index.d.ts",

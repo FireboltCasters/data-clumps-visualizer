@@ -39,33 +39,6 @@ export const WebIdeFileExplorerDropZone : FunctionComponent<WebIdeFileExplorerDr
     }
      */
 
-    function getFileEntriesFromDictionary(entry): Promise<File[]> {
-        return new Promise((resolve, reject) => {
-            const dirReader = entry.createReader();
-            let entries = [];
-
-            /**
-             * Race condition: The function getFileEntriesFromDictionary() reads the directory entries asynchronously, but it doesn't wait for them to be fully read before resolving the Promise. This can result in a race condition where the Promise resolves before all entries have been read.
-             */
-
-            const readEntries = () => {
-                dirReader.readEntries((result) => {
-                    /**
-                     * This modified function uses a recursive function readEntries() to read all the entries in the directory. It concatenates the results to the entries array and checks if there are any more entries. If there are, it recursively calls itself again to read more entries. If there are no more entries, it resolves the Promise with the complete entries array.
-                     */
-                    if (!result.length) {
-                        resolve(entries);
-                    } else {
-                        entries = entries.concat(Array.from(result));
-                        readEntries();
-                    }
-                }, reject);
-            };
-
-            readEntries();
-        });
-    }
-
     async function handleLoadFiles(files): Promise<any>{
         console.log("handleLoadFiles")
         const items = files;
@@ -103,6 +76,9 @@ export const WebIdeFileExplorerDropZone : FunctionComponent<WebIdeFileExplorerDr
         const items = data.items;
         //TODO: handle parse drop single file
         let newProject = await handleLoadFiles(items);
+        console.log("newProject")
+        console.log(newProject)
+
         await props.loadDataClumpsDict(newProject);
 
         if(props.onDropComplete){

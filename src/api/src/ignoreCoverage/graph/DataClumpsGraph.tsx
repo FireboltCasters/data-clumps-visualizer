@@ -54,7 +54,7 @@ export const DataClumpsGraph : FunctionComponent<DataClumpsGraphProps> = (props:
             for(let dataClumpKey of dataClumpsKeys){
                 let dataClump = dataClumps[dataClumpKey];
 
-                let file_path = dataClump.file_path;
+                let file_path = dataClump.from_file_path;
 
                 let shouldAnalyzeFile = true;
 
@@ -261,91 +261,129 @@ export const DataClumpsGraph : FunctionComponent<DataClumpsGraphProps> = (props:
     }
 
     function initNodesForDataClumpData(dataClumpHolder: DataClumpTypeContext, dataClumpData: DataClumpsVariableFromContext, files_dict, classes_dict, fields_dict, methods_dict, parameters_dict){
-        let file_path = dataClumpHolder.from_file_path;
-        let file_node = getRawFileNode(file_path, files_dict);
 
         let data_clump_type = dataClumpHolder.data_clump_type;
-        if(data_clump_type==="parameter_data_clump"){
+        if(data_clump_type==="parameters_to_parameters_data_clump"){
             //console.log("parameter_data_clump")
             //console.log(dataClumpData);
 
-            let parameter_key = dataClumpData.key;
-            let parameter_name = dataClumpData.name;
+            let file_path_from = dataClumpHolder.from_file_path;
+            let file_node_from = getRawFileNode(file_path_from, files_dict);
 
-            let method_key = dataClumpHolder.from_method_key+"";
-            let method_name = dataClumpHolder.from_method_name+"";
+            let classOrInterfaceKey_from = dataClumpHolder.from_class_or_interface_key;
+            let classOrInterfaceName_from = dataClumpHolder.from_class_or_interface_name;
 
-            let classOrInterfaceKey = dataClumpHolder.from_class_or_interface_key;
-            let classOrInterfaceName = dataClumpHolder.from_class_or_interface_name;
+            let class_or_interface_node_from = getRawClassesOrInterfacesNode(classOrInterfaceKey_from, classOrInterfaceName_from, classes_dict);
+            file_node_from.classes_or_interfaces_ids[class_or_interface_node_from.id] = class_or_interface_node_from.id;
 
-            let class_or_interface_node = getRawClassesOrInterfacesNode(classOrInterfaceKey, classOrInterfaceName, classes_dict);
-            file_node.classes_or_interfaces_ids[class_or_interface_node.id] = class_or_interface_node.id;
+            let file_path_to = dataClumpHolder.to_file_path;
+            let file_node_to = getRawFileNode(file_path_to, files_dict);
 
-            let method_node = getRawMethodNode(method_key, method_name, methods_dict);
-            class_or_interface_node.method_ids[method_node.id] = method_node.id;
+            let classOrInterfaceKey_to = dataClumpHolder.to_class_or_interface_key;
+            let classOrInterfaceName_to = dataClumpHolder.to_class_or_interface_name;
 
-            let parameter_node = getRawParameterNode(parameter_key, parameter_name, parameters_dict);
-            method_node.parameter_ids[parameter_node.id] = parameter_node.id;
+            let class_or_interface_node_to = getRawClassesOrInterfacesNode(classOrInterfaceKey_to, classOrInterfaceName_to, classes_dict);
+            file_node_to.classes_or_interfaces_ids[class_or_interface_node_to.id] = class_or_interface_node_to.id;
 
-            let related_to_parameter_context = dataClumpData.to_variable;
-            let related_to_parameter_key = related_to_parameter_context.key;
-            let related_to_parameter_name = related_to_parameter_context.name;
-            let related_to_parameter_node = getRawParameterNode(related_to_parameter_key, related_to_parameter_name, parameters_dict);
 
-            createRawLinkBetweenParameterOrFieldNodes(parameter_node, related_to_parameter_node);
+            let method_key_from = dataClumpHolder.from_method_key+"";
+            let method_name_from = dataClumpHolder.from_method_name+"";
+            let method_node_from = getRawMethodNode(method_key_from, method_name_from, methods_dict);
+            class_or_interface_node_from.method_ids[method_node_from.id] = method_node_from.id;
 
-            let related_to_method_key = dataClumpHolder.to_method_key+""
-            let related_to_method_name = dataClumpHolder.to_method_name+"";
+            let method_key_to = dataClumpHolder.to_method_key+"";
+            let method_name_to = dataClumpHolder.to_method_name+"";
+            let method_node_to = getRawMethodNode(method_key_to, method_name_to, methods_dict);
+            class_or_interface_node_to.method_ids[method_node_to.id] = method_node_to.id;
 
-            let related_to_method_node = getRawMethodNode(related_to_method_key, related_to_method_name, methods_dict);
-            related_to_method_node.parameter_ids[related_to_parameter_node.id] = related_to_parameter_node.id;
 
-            let related_to_class_or_interface_key = dataClumpHolder.to_class_or_interface_key;
-            let related_to_class_or_interface_name = dataClumpHolder.to_class_or_interface_name;
+            let parameter_key_from = dataClumpData.key;
+            let parameter_name_from = dataClumpData.name;
+            let parameter_node_from = getRawParameterNode(parameter_key_from, parameter_name_from, parameters_dict);
+            method_node_from.parameter_ids[parameter_node_from.id] = parameter_node_from.id;
 
-            let related_to_class_or_interface_node = getRawClassesOrInterfacesNode(related_to_class_or_interface_key, related_to_class_or_interface_name, classes_dict);
-            related_to_class_or_interface_node.method_ids[related_to_method_node.id] = related_to_method_node.id;
+            let parameter_key_to = dataClumpData.to_variable.key;
+            let parameter_name_to = dataClumpData.to_variable.name;
+            let parameter_node_to = getRawParameterNode(parameter_key_to, parameter_name_to, parameters_dict);
+            method_node_from.parameter_ids[parameter_node_to.id] = parameter_node_to.id;
 
-            let related_to_file_path = dataClumpHolder.to_file_path;
-            let related_to_file_node = getRawFileNode(related_to_file_path, files_dict);
+            createRawLinkBetweenParameterOrFieldNodes(parameter_node_from, parameter_node_to);
 
-            related_to_file_node.classes_or_interfaces_ids[related_to_class_or_interface_node.id] = related_to_class_or_interface_node.id;
         }
-        else if(data_clump_type==="field_data_clump"){
 
-            //console.log("field_data_clump")
+        else if(data_clump_type==="fields_to_fields_data_clump"){
 
-            let field_key = dataClumpData.key;
-            let field_name = dataClumpData.name;
+            let file_path_from = dataClumpHolder.from_file_path;
+            let file_node_from = getRawFileNode(file_path_from, files_dict);
 
-            let classOrInterfaceKey = dataClumpHolder.from_class_or_interface_key;
-            let classOrInterfaceName = dataClumpHolder.from_class_or_interface_name;
+            let classOrInterfaceKey_from = dataClumpHolder.from_class_or_interface_key;
+            let classOrInterfaceName_from = dataClumpHolder.from_class_or_interface_name;
 
-            let class_or_interface_node = getRawClassesOrInterfacesNode(classOrInterfaceKey, classOrInterfaceName, classes_dict);
-            file_node.classes_or_interfaces_ids[class_or_interface_node.id] = class_or_interface_node.id;
+            let class_or_interface_node_from = getRawClassesOrInterfacesNode(classOrInterfaceKey_from, classOrInterfaceName_from, classes_dict);
+            file_node_from.classes_or_interfaces_ids[class_or_interface_node_from.id] = class_or_interface_node_from.id;
 
+            let file_path_to = dataClumpHolder.to_file_path;
+            let file_node_to = getRawFileNode(file_path_to, files_dict);
 
-            let field_node = getRawFieldNode(field_key, field_name, fields_dict);
-            class_or_interface_node.field_ids[field_node.id] = field_node.id;
+            let classOrInterfaceKey_to = dataClumpHolder.to_class_or_interface_key;
+            let classOrInterfaceName_to = dataClumpHolder.to_class_or_interface_name;
 
-            let related_to_field_context = dataClumpData.to_variable;
-            let related_to_field_key = related_to_field_context.key;
-            let related_to_field_name = related_to_field_context.name;
-
-            let related_to_field_node = getRawFieldNode(related_to_field_key, related_to_field_name, fields_dict);
+            let class_or_interface_node_to = getRawClassesOrInterfacesNode(classOrInterfaceKey_to, classOrInterfaceName_to, classes_dict);
+            file_node_to.classes_or_interfaces_ids[class_or_interface_node_to.id] = class_or_interface_node_to.id;
 
 
-            createRawLinkBetweenParameterOrFieldNodes(field_node, related_to_field_node);
+            let parameter_key_from = dataClumpData.key;
+            let parameter_name_from = dataClumpData.name;
+            let parameter_node_from = getRawParameterNode(parameter_key_from, parameter_name_from, parameters_dict);
+            class_or_interface_node_from.field_ids[parameter_node_from.id] = parameter_node_from.id;
 
-            let related_to_class_or_interface_key = dataClumpHolder.to_class_or_interface_key
-            let related_to_class_or_interface_name = dataClumpHolder.to_class_or_interface_name
-            let related_to_class_or_interface_node = getRawClassesOrInterfacesNode(related_to_class_or_interface_key, related_to_class_or_interface_name, classes_dict);
-            related_to_class_or_interface_node.field_ids[related_to_field_node.id] = related_to_field_node.id;
+            let parameter_key_to = dataClumpData.to_variable.key;
+            let parameter_name_to = dataClumpData.to_variable.name;
+            let parameter_node_to = getRawParameterNode(parameter_key_to, parameter_name_to, parameters_dict);
+            class_or_interface_node_to.field_ids[parameter_node_to.id] = parameter_node_to.id;
+
+            createRawLinkBetweenParameterOrFieldNodes(parameter_node_from, parameter_node_to);
+
+        } else if(data_clump_type==="parameters_to_fields_data_clump"){
+
+            let file_path_from = dataClumpHolder.from_file_path;
+            let file_node_from = getRawFileNode(file_path_from, files_dict);
+
+            let classOrInterfaceKey_from = dataClumpHolder.from_class_or_interface_key;
+            let classOrInterfaceName_from = dataClumpHolder.from_class_or_interface_name;
+
+            let class_or_interface_node_from = getRawClassesOrInterfacesNode(classOrInterfaceKey_from, classOrInterfaceName_from, classes_dict);
+            file_node_from.classes_or_interfaces_ids[class_or_interface_node_from.id] = class_or_interface_node_from.id;
+
+            let file_path_to = dataClumpHolder.to_file_path;
+            let file_node_to = getRawFileNode(file_path_to, files_dict);
+
+            let classOrInterfaceKey_to = dataClumpHolder.to_class_or_interface_key;
+            let classOrInterfaceName_to = dataClumpHolder.to_class_or_interface_name;
+
+            let class_or_interface_node_to = getRawClassesOrInterfacesNode(classOrInterfaceKey_to, classOrInterfaceName_to, classes_dict);
+            file_node_to.classes_or_interfaces_ids[class_or_interface_node_to.id] = class_or_interface_node_to.id;
 
 
-            let related_to_file_path = dataClumpHolder.to_file_path
-            let related_to_file_node = getRawFileNode(related_to_file_path, files_dict);
-            related_to_file_node.classes_or_interfaces_ids[related_to_class_or_interface_node.id] = related_to_class_or_interface_node.id;
+            let method_key_from = dataClumpHolder.from_method_key+"";
+            let method_name_from = dataClumpHolder.from_method_name+"";
+            let method_node_from = getRawMethodNode(method_key_from, method_name_from, methods_dict);
+            class_or_interface_node_from.method_ids[method_node_from.id] = method_node_from.id;
+
+
+            let parameter_key_from = dataClumpData.key;
+            let parameter_name_from = dataClumpData.name;
+            let parameter_node_from = getRawParameterNode(parameter_key_from, parameter_name_from, parameters_dict);
+            method_node_from.parameter_ids[parameter_node_from.id] = parameter_node_from.id;
+
+            let parameter_key_to = dataClumpData.to_variable.key;
+            let parameter_name_to = dataClumpData.to_variable.name;
+            let parameter_node_to = getRawParameterNode(parameter_key_to, parameter_name_to, parameters_dict);
+            class_or_interface_node_to.field_ids[parameter_node_to.id] = parameter_node_to.id;
+
+            createRawLinkBetweenParameterOrFieldNodes(parameter_node_from, parameter_node_to);
+
+
         }
     }
 

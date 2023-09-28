@@ -184,10 +184,12 @@ export const DataClumpsGraph : FunctionComponent<DataClumpsGraphProps> = (props:
 
     function getRawFileNode(file_path, files_dict: any){
         let file_node = files_dict[file_path];
+        let file_name = file_path.split("/").pop();
+
         if(!file_node){
             file_node = {
                 id: file_path,
-                label: file_path,
+                label: file_name,
                 color: "red",
                 classes_or_interfaces_ids: {},
             }

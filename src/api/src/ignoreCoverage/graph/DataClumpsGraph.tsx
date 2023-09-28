@@ -195,7 +195,8 @@ export const DataClumpsGraph : FunctionComponent<DataClumpsGraphProps> = (props:
             file_node = {
                 id: file_path,
                 label: file_name,
-                color: "red",
+                color: "#F6E146",
+                font: { color: '#000000' },
                 classes_or_interfaces_ids: {},
             }
             files_dict[file_node.id] = file_node;
@@ -211,7 +212,8 @@ export const DataClumpsGraph : FunctionComponent<DataClumpsGraphProps> = (props:
             class_or_interface_node = {
                 id: classOrInterface_key,
                 label: classOrInterface_name,
-                color: "lightblue",
+                color: "#63731C",
+                font: { color: '#ffffff' },
                 field_ids: {},
                 method_ids: {},
             }
@@ -226,7 +228,8 @@ export const DataClumpsGraph : FunctionComponent<DataClumpsGraphProps> = (props:
             method_node = {
                 id: method_key,
                 label: method_name,
-                color: "green",
+                color: "#F79B59",
+                font: { color: '#000000' },
                 parameter_ids: {},
             }
             methods_dict[method_node.id] = method_node;
@@ -240,26 +243,13 @@ export const DataClumpsGraph : FunctionComponent<DataClumpsGraphProps> = (props:
             parameter_node = {
                 id: parameter_key,
                 label: parameter_name,
-                color: "yellow",
+                color: "#F4001D",
+                font: { color: '#ffffff' },
                 related_to: {},
             }
             parameters_dict[parameter_node.id] = parameter_node;
         }
         return parameter_node;
-    }
-
-    function getRawFieldNode(field_key: string, field_name: string, fields_dict: any){
-        let field_node = fields_dict[field_key];
-        if(!field_node){
-            field_node = {
-                id: field_key,
-                label: field_name,
-                color: "orange",
-                related_to: {},
-            }
-            fields_dict[field_node.id] = field_node;
-        }
-        return field_node;
     }
 
     function createRawLinkBetweenParameterOrFieldNodes(field_node: any, related_to_field_node: any){

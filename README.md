@@ -34,11 +34,11 @@ https://fireboltcasters.github.io/data-clumps-visualizer/
 
 ## Demo
 
-Here you can explore the data clumps visualization for ArgoUML:
+1. Download a data clumps report. Example: https://raw.githubusercontent.com/NilsBaumgartner1994/Data-Clumps-Dataset/main/Data/Projects/xerces2-j/tags/00a12ead688b1051ce5e9b8390257d53a161c056.json
+2. Open visualizer: https://fireboltcasters.github.io/data-clumps-visualizer
+3. Drag and drop the data clumps report
 
-https://fireboltcasters.github.io/data-clumps-visualizer/?demoType=main
-
-<a href="https://fireboltcasters.github.io/data-clumps-visualizer/?demoType=main">
+<a href="https://fireboltcasters.github.io/data-clumps-visualizer/">
   <img src="https://github.com/FireboltCasters/data-clumps-visualizer/raw/master/docs/demo.gif" alt="backup" style="witdth:100px;"/>
 </a>
     

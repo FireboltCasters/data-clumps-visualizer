@@ -35,7 +35,7 @@ export const DataClumpsGraph : FunctionComponent<DataClumpsGraphProps> = (props:
 
     };
 
-    function getInitialGraphFromDataClumpsDict(dataClumpsDict){
+    function getInitialGraphFromDataClumpsDict(dataClumpsDict: DataClumpsTypeContext | null){
         //console.log("getInitialGraphFromDataClumpsDict");
 
         let from_file_path: string | null | undefined = props?.from_file_path;
@@ -302,7 +302,7 @@ export const DataClumpsGraph : FunctionComponent<DataClumpsGraphProps> = (props:
             let parameter_key_to = dataClumpData.to_variable.key;
             let parameter_name_to = dataClumpData.to_variable.name;
             let parameter_node_to = getRawParameterNode(parameter_key_to, parameter_name_to, parameters_dict);
-            method_node_from.parameter_ids[parameter_node_to.id] = parameter_node_to.id;
+            method_node_to.parameter_ids[parameter_node_to.id] = parameter_node_to.id;
 
             createRawLinkBetweenParameterOrFieldNodes(parameter_node_from, parameter_node_to);
 

@@ -8,6 +8,90 @@ import {
 import {Button} from "primereact/button";
 import { v4 as uuidv4 } from 'uuid'
 
+const COLOR_UNI_ROT = "#ac0634";
+const COLOR_UNI_GELB = "#fbb900"
+const COLOR_UNI_GRAU = "#cfcfcf"
+
+
+const COLOR_PRIMARY = undefined;
+const COLOR_PALETTES = generateColorPaletteFromColor(COLOR_PRIMARY);
+
+const COLOR_FILE = COLOR_PALETTES.color_file || COLOR_UNI_GRAU
+const COLOR_FILE_TEXT = calculateBestTextColor(COLOR_FILE);
+const COLOR_CLASS = COLOR_PALETTES.color_class || COLOR_UNI_GRAU
+const COLOR_CLASS_TEXT = calculateBestTextColor(COLOR_CLASS);
+const COLOR_METHOD = COLOR_PALETTES.color_method || COLOR_UNI_GELB
+const COLOR_METHOD_TEXT = calculateBestTextColor(COLOR_METHOD);
+const COLOR_PARAMETER = COLOR_PALETTES.color_parameter || COLOR_UNI_ROT
+const COLOR_PARAMETER_TEXT = calculateBestTextColor(COLOR_PARAMETER);
+const COLOR_FIELD = COLOR_PALETTES.color_field || COLOR_UNI_ROT
+const COLOR_FIELD_TEXT = calculateBestTextColor(COLOR_FIELD);
+
+function generateColorPaletteFromColor(baseColor: string | undefined){
+    function adjustBrightness(color: string | undefined, percent) {
+        if(!color){
+            return undefined;
+        }
+
+        // Convert hex to RGB
+        const num = parseInt(color.replace("#", ""), 16);
+        const r = (num >> 16) + percent;
+        const g = ((num >> 8) & 0x00FF) + percent;
+        const b = (num & 0x0000FF) + percent;
+
+        // Ensure RGB stays within 0-255
+        const newR = Math.min(Math.max(0, r), 255);
+        const newG = Math.min(Math.max(0, g), 255);
+        const newB = Math.min(Math.max(0, b), 255);
+
+        // Convert back to hex
+        return `#${((1 << 24) + (newR << 16) + (newG << 8) + newB)
+            .toString(16)
+            .slice(1)}`;
+    }
+
+    let isDark = false;
+    const COLOR_BLACK = "#000000";
+    let bestTextColor = calculateBestTextColor(baseColor);
+    if(bestTextColor===COLOR_BLACK){
+        isDark = true;
+    }
+
+    let multiplier = -1;
+    if(isDark){
+        multiplier = 1;
+    }
+
+    return {
+        color_file: adjustBrightness(baseColor, multiplier*160), // Darker than base
+        color_class: adjustBrightness(baseColor, multiplier*120), // Slightly darker than base
+        color_method: adjustBrightness(baseColor, multiplier*80), // Slightly lighter than base
+        color_parameter: baseColor, // Original base color
+        color_field: adjustBrightness(baseColor, multiplier*40), // Lighter than base
+    };
+}
+
+function calculateBestTextColor(backgroundColor: string | undefined){
+    const COLOR_BLACK = "#000000";
+    const COLOR_WHITE = "#FFFFFF";
+
+    if(!backgroundColor){
+        return undefined
+    }
+
+    // only black or white for text
+    let color = backgroundColor;
+    if(color.startsWith("#")){
+        color = color.substring(1);
+    }
+    // calculate highest contrast color
+    let r = parseInt(color.substring(0,2),16);
+    let g = parseInt(color.substring(2,4),16);
+    let b = parseInt(color.substring(4,6),16);
+    let yiq = ((r*299)+(g*587)+(b*114))/1000;
+    return (yiq >= 128) ? COLOR_BLACK : COLOR_WHITE;
+}
+
 // @ts-ignore
 export interface DataClumpsGraphProps {
     key: string,
@@ -195,8 +279,8 @@ export const DataClumpsGraph : FunctionComponent<DataClumpsGraphProps> = (props:
             file_node = {
                 id: file_path,
                 label: file_name,
-                color: "#636363",
-                font: { color: '#FFFFFF' },
+                color: COLOR_FILE,
+                font: { color: COLOR_FILE_TEXT },
                 classes_or_interfaces_ids: {},
             }
             files_dict[file_node.id] = file_node;
@@ -212,8 +296,8 @@ export const DataClumpsGraph : FunctionComponent<DataClumpsGraphProps> = (props:
             class_or_interface_node = {
                 id: classOrInterface_key,
                 label: classOrInterface_name,
-                color: "#6D6921",
-                font: { color: '#ffffff' },
+                color: COLOR_CLASS,
+                font: { color: COLOR_CLASS_TEXT },
                 field_ids: {},
                 method_ids: {},
             }
@@ -228,8 +312,8 @@ export const DataClumpsGraph : FunctionComponent<DataClumpsGraphProps> = (props:
             method_node = {
                 id: method_key,
                 label: method_name,
-                color: "#CBCBAE",
-                font: { color: '#000000' },
+                color: COLOR_METHOD,
+                font: { color: COLOR_METHOD_TEXT },
                 parameter_ids: {},
             }
             methods_dict[method_node.id] = method_node;
@@ -243,8 +327,8 @@ export const DataClumpsGraph : FunctionComponent<DataClumpsGraphProps> = (props:
             parameter_node = {
                 id: parameter_key,
                 label: parameter_name,
-                color: "#F6E146",
-                font: { color: '#000000' },
+                color: COLOR_PARAMETER,
+                font: { color: COLOR_PARAMETER_TEXT },
                 related_to: {},
             }
             parameters_dict[parameter_node.id] = parameter_node;
@@ -378,7 +462,10 @@ export const DataClumpsGraph : FunctionComponent<DataClumpsGraphProps> = (props:
             let parameter_node_to = getRawParameterNode(parameter_key_to, parameter_name_to, parameters_dict);
             class_or_interface_node_to.field_ids[parameter_node_to.id] = parameter_node_to.id;
 
-            createRawLinkBetweenParameterOrFieldNodes(parameter_node_from, parameter_node_to);
+            //createRawLinkBetweenParameterOrFieldNodes(parameter_node_from, parameter_node_to);
+
+            // is uni-directional so only from the parameter to the field
+            parameter_node_from.related_to[parameter_node_to.id] = parameter_node_to.id;
 
 
         }
@@ -390,21 +477,21 @@ export const DataClumpsGraph : FunctionComponent<DataClumpsGraphProps> = (props:
     let state = {
         counter: 5,
         graph: getInitialGraphFromDataClumpsDict(dataClumpsDict),
-/**        graph: {
-            nodes: [
-                { id: 1, label: "Node 1", color: "#e04141" },
-                { id: 2, label: "Node 2", color: "#e09c41" },
-                { id: 3, label: "Node 3", color: "#e0df41" },
-                { id: 4, label: "Node 4", color: "#7be041" },
-                { id: 5, label: "Node 5", color: "#41e0c9" }
-            ],
-            edges: [
-                { from: 1, to: 2 },
-                { from: 1, to: 3 },
-                { from: 2, to: 4 },
-                { from: 2, to: 5 }
-            ]
-        }, */
+        /**        graph: {
+         nodes: [
+         { id: 1, label: "Node 1", color: "#e04141" },
+         { id: 2, label: "Node 2", color: "#e09c41" },
+         { id: 3, label: "Node 3", color: "#e0df41" },
+         { id: 4, label: "Node 4", color: "#7be041" },
+         { id: 5, label: "Node 5", color: "#41e0c9" }
+         ],
+         edges: [
+         { from: 1, to: 2 },
+         { from: 1, to: 3 },
+         { from: 2, to: 4 },
+         { from: 2, to: 5 }
+         ]
+         }, */
         events: {
             select: ({ nodes, edges }) => {
                 console.log("Selected nodes:");
